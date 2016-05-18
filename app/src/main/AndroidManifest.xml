@@ -15,12 +15,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Quiz"></activity>
+        <activity android:name=".Quiz" />
 
         <provider
-            android:name="com.khatthaphone.asean.QuizProvider"
+            android:name=".QuizProvider"
             android:authorities="com.khatthaphone.asean.QuizProvider"
             android:exported="false" />
+
+        <activity android:name=".QuizSubmit"></activity>
     </application>
 
 </manifest>
