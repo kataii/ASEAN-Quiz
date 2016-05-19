@@ -2,16 +2,19 @@ package com.khatthaphone.asean;
 
 import android.content.ContentProvider;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.UriMatcher;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+import android.support.annotation.Nullable;
 
 /**
  * Created by ACER on 5/18/2016.
  */
-public abstract class QuizProvider extends ContentProvider {
+public class QuizProvider extends ContentProvider {
 
 
     // Database Columns
@@ -62,6 +65,12 @@ public abstract class QuizProvider extends ContentProvider {
         return true;
     }
 
+    @Nullable
+    @Override
+    public Cursor query(Uri uri, String[] strings, String s, String[] strings1, String s1) {
+        return null;
+    }
+
     /*    This method is required in order to query the supported types. It's also useful in the query() method to determine the type of Uri recieved.
         */
     @Override
@@ -74,6 +83,22 @@ public abstract class QuizProvider extends ContentProvider {
             default:
                 throw new IllegalArgumentException("Unknown Uri: " + uri);
         }
+    }
+
+    @Nullable
+    @Override
+    public Uri insert(Uri uri, ContentValues contentValues) {
+        return null;
+    }
+
+    @Override
+    public int delete(Uri uri, String s, String[] strings) {
+        return 0;
+    }
+
+    @Override
+    public int update(Uri uri, ContentValues contentValues, String s, String[] strings) {
+        return 0;
     }
 
 

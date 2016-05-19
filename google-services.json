@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "428868922938",
+    "firebase_url": "https://asean-quiz-35524.firebaseio.com",
+    "project_id": "asean-quiz-35524",
+    "storage_bucket": "asean-quiz-35524.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:428868922938:android:f2e059e9dbcf3218",
+        "android_client_info": {
+          "package_name": "com.khatthaphone.asean"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "428868922938-2qa99fse7prepr0mg2onnt2n42bdu20m.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAc9A32ZoAdn0HMVfIAoFhd5aDeQZIuSZk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
