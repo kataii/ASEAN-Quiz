@@ -51,7 +51,7 @@
                     android:layout_margin="10dp"
                     android:checked="false"
                     android:padding="15dp"
-                    android:text="Tanswer2"
+                    android:text="answer2"
                     android:textSize="15dp" />
 
                 <RadioButton

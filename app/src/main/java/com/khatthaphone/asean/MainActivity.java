@@ -9,6 +9,7 @@ import android.widget.Button;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button btnPlay;
+    Button btnAdd;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,7 +17,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         btnPlay = (Button) findViewById(R.id.play);
+        btnAdd = (Button) findViewById(R.id.addQuestion);
+
         btnPlay.setOnClickListener(this);
+        btnAdd.setOnClickListener(this);
 
     }
 
@@ -24,6 +28,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View view) {
         if (view == btnPlay) {
             Intent intent = new Intent(this, Quiz.class);
+            startActivity(intent);
+        }
+        if (view == btnAdd) {
+            Intent intent = new Intent(this, QuizAdder.class);
             startActivity(intent);
         }
     }

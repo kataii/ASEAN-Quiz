@@ -16,9 +16,20 @@
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:background="@color/colorPrimaryDark"
-        android:onClick="startGame"
         android:padding="30dp"
         android:text="@string/play"
+        android:textColor="@android:color/white" />
+
+    <Button
+        android:id="@+id/addQuestion"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/play"
+        android:layout_centerInParent="true"
+        android:layout_marginTop="40dp"
+        android:background="@color/colorPrimaryDark"
+        android:padding="30dp"
+        android:text="@string/addQuestion"
         android:textColor="@android:color/white" />
 
 </RelativeLayout>
