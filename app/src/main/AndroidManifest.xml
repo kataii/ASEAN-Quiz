@@ -21,8 +21,8 @@
         <activity android:name=".Quiz" />
 
         <provider
-                    android:name=".QuizProvider"
-                    android:authorities="com.khatthaphone.asean.QuizProvider"
+            android:name=".QuizProvider"
+            android:authorities="com.khatthaphone.asean.QuizProvider"
             android:exported="false" />
 
         <activity android:name=".QuizAdder"></activity>
