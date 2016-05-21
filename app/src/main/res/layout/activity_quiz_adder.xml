@@ -140,6 +140,7 @@
                 android:text="@string/right_answer" />
 
             <Spinner
+                android:id="@+id/spinner"
                 android:layout_width="100dp"
                 android:layout_height="0dp"
                 android:layout_weight="2">
