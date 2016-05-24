@@ -1,21 +1,15 @@
 package com.khatthaphone.asean;
 
-import android.content.ContentProvider;
-import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.UriMatcher;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.net.Uri;
-import android.support.annotation.Nullable;
 
 /**
  * Created by ACER on 5/18/2016.
  */
-public class QuizProvider extends ContentProvider {
-
+public class QuizProvider {
 
     // Database Columns
     public static final String COLUMN_ROWID = "_id";
@@ -25,13 +19,12 @@ public class QuizProvider extends ContentProvider {
     public static final String COLUMN_CHOICE3 = "choice3";
     public static final String COLUMN_CHOICE4 = "choice4";
     public static final String COLUMN_ANSWER = "answer";
-    //MIME types used for searching words or looking u a single definition
-    public static final String QUIZS_MIME_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/vnd.com.khatthaphone.asean.quiz_multi";
-    public static final String QUIZ_MIME_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/vnd.com.khatthaphone.asean.quiz_multi";
+
     // Database's Constants
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "data";
     private static final String DATABASE_TABLE = "quiz_multi";
+
     private static final String DATABASE_CREATE = "create table "
             + DATABASE_TABLE + " (" + COLUMN_ROWID + " integer primary key autoincrement, "
             + COLUMN_QUESTION + " text not null, "
@@ -40,67 +33,53 @@ public class QuizProvider extends ContentProvider {
             + COLUMN_CHOICE2 + " text not null, "
             + COLUMN_CHOICE3 + " text not null, "
             + COLUMN_CHOICE4 + " text not null);";
-    // UriMatcher stuff
-    private static final int LIST_QUIZ = 0;
-    private static final int ITEM_QUIZ = 1;
-    //Content Provider Uri and Authority
-    public static String AUTHORITY = "com.khatthaphone.asean,QuizProvider";
-    public static final Uri CONTENT_URI = Uri.parse("content://" + AUTHORITY + "/quiz_multi");
-    private static final UriMatcher sURIMatcher = buildUriMathcer();
+    private final Context context;
     private SQLiteDatabase mDb;
+    private DatabaseHelper dbHelper;
+    private String[] quiz;
 
-    /*
-        Build up a UriMatcher for search suggesstion and shortcut refresh queries.
-        */
-    private static UriMatcher buildUriMathcer() {
-        UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
-        matcher.addURI(AUTHORITY, "quiz_multi", LIST_QUIZ);
-        matcher.addURI(AUTHORITY, "quiz_multi/#", ITEM_QUIZ);
-        return matcher;
+    public QuizProvider(Context context) {
+        this.context = context;
     }
 
-    @Override
-    public boolean onCreate() {
-        mDb = new DatabaseHelper(getContext()).getWritableDatabase();
-        return true;
+    public QuizProvider open() {
+        dbHelper = new DatabaseHelper(context);
+        mDb = dbHelper.getWritableDatabase();
+        return this;
     }
 
-    @Nullable
-    @Override
-    public Cursor query(Uri uri, String[] strings, String s, String[] strings1, String s1) {
-        return null;
+    public void close() {
+        dbHelper.close();
     }
 
-    /*    This method is required in order to query the supported types. It's also useful in the query() method to determine the type of Uri recieved.
-        */
-    @Override
-    public String getType(Uri uri) {
-        switch (sURIMatcher.match(uri)) {
-            case LIST_QUIZ:
-                return QUIZS_MIME_TYPE;
-            case ITEM_QUIZ:
-                return QUIZ_MIME_TYPE;
-            default:
-                throw new IllegalArgumentException("Unknown Uri: " + uri);
-        }
+    public String[] getData() {
+
+        String[] columns = new String[]{COLUMN_ROWID, COLUMN_QUESTION, COLUMN_ANSWER, COLUMN_CHOICE1, COLUMN_CHOICE2, COLUMN_CHOICE3, COLUMN_CHOICE4};
+        Cursor c = mDb.query(DATABASE_TABLE, columns, null, null, null, null, null);
+
+        int iRow = c.getColumnIndex(COLUMN_ROWID);
+        int iQustion = c.getColumnIndex(COLUMN_QUESTION);
+        int iChoice1 = c.getColumnIndex(COLUMN_CHOICE1);
+        int iChoice2 = c.getColumnIndex(COLUMN_CHOICE2);
+        int iChoice3 = c.getColumnIndex(COLUMN_CHOICE3);
+        int iChoice4 = c.getColumnIndex(COLUMN_CHOICE4);
+
+
+        return quiz;
     }
 
-    @Nullable
-    @Override
-    public Uri insert(Uri uri, ContentValues contentValues) {
-        return null;
-    }
+    public long createEntry(String question, String answer, String choice1, String choice2, String choice3, String choice4) {
 
-    @Override
-    public int delete(Uri uri, String s, String[] strings) {
-        return 0;
-    }
+        ContentValues values = new ContentValues();
+        values.put(QuizProvider.COLUMN_QUESTION, question);
+        values.put(QuizProvider.COLUMN_CHOICE1, answer);
+        values.put(QuizProvider.COLUMN_CHOICE2, choice1);
+        values.put(QuizProvider.COLUMN_CHOICE3, choice2);
+        values.put(QuizProvider.COLUMN_CHOICE4, choice3);
+        values.put(QuizProvider.COLUMN_ANSWER, choice4);
 
-    @Override
-    public int update(Uri uri, ContentValues contentValues, String s, String[] strings) {
-        return 0;
+        return mDb.insert(DATABASE_TABLE, null, values);
     }
-
 
     public class DatabaseHelper extends SQLiteOpenHelper {
 

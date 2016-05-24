@@ -1,6 +1,6 @@
 package com.khatthaphone.asean;
 
-import android.content.ContentValues;
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -8,8 +8,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 
-public class QuizAdder extends AppCompatActivity {
+public class QuizAdder extends AppCompatActivity implements View.OnClickListener {
 
     Button btnAdd;
     EditText eQuestion;
@@ -24,7 +25,7 @@ public class QuizAdder extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_adder);
 
-        btnAdd = (Button) findViewById(R.id.btnAdd);
+        btnAdd = (Button) findViewById(R.id.btnAdd2);
         eQuestion = (EditText) findViewById(R.id.eQuestion);
         eAnswer1 = (EditText) findViewById(R.id.eAnswer1);
         eAnswer2 = (EditText) findViewById(R.id.eAnswer2);
@@ -36,15 +37,43 @@ public class QuizAdder extends AppCompatActivity {
         rightAnswers.setDropDownViewResource(android.R.layout.simple_list_item_1);
         spinner.setAdapter(rightAnswers);
 
-        btnAdd.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                ContentValues values = new ContentValues();
-//                values.put(QuizProvider.COLUMN_ROWID, mRowId);
-                values.put(QuizProvider.COLUMN_QUESTION, eQuestion.getText().toString());
-                values.put(QuizProvider.COLUMN_CHOICE1, eQuestion.getText().toString());
-            }
-        });
+        btnAdd.setOnClickListener(this);
 
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.btnAdd2:
+
+                boolean worked = true;
+
+                try {
+                    String question = eQuestion.getText().toString();
+                    String answer = spinner.getSelectedItem().toString();
+                    String choice1 = eAnswer1.getText().toString();
+                    String choice2 = eAnswer2.getText().toString();
+                    String choice3 = eAnswer3.getText().toString();
+                    String choice4 = eAnswer4.getText().toString();
+
+                    QuizProvider entry = new QuizProvider(this);
+                    entry.open();
+                    entry.createEntry(question, answer, choice1, choice2, choice3, choice4);
+                    entry.close();
+                } catch (Exception e) {
+                    worked = false;
+                } finally {
+                    if (worked) {
+                        Dialog d = new Dialog(this);
+                        d.setTitle("SQLite  works!");
+                        TextView tv = new TextView(this);
+                        tv.setText("Success");
+                        tv.setPadding(20, 20, 20, 20);
+                        d.setContentView(tv);
+                        d.show();
+                    }
+                }
+        }
     }
 }

@@ -16,8 +16,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        btnPlay = (Button) findViewById(R.id.play);
-        btnAdd = (Button) findViewById(R.id.addQuestion);
+        btnPlay = (Button) findViewById(R.id.btnPlay);
+        btnAdd = (Button) findViewById(R.id.btnAddQuestion);
 
         btnPlay.setOnClickListener(this);
         btnAdd.setOnClickListener(this);
@@ -26,13 +26,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     @Override
     public void onClick(View view) {
-        if (view == btnPlay) {
-            Intent intent = new Intent(this, Quiz.class);
-            startActivity(intent);
-        }
-        if (view == btnAdd) {
-            Intent intent = new Intent(this, QuizAdder.class);
-            startActivity(intent);
+        switch (view.getId()) {
+            case R.id.btnPlay:
+                Intent play = new Intent(this, Quiz.class);
+                startActivity(play);
+                break;
+            case R.id.btnAddQuestion:
+                Intent add = new Intent(this, QuizAdder.class);
+                startActivity(add);
+                break;
         }
     }
 }

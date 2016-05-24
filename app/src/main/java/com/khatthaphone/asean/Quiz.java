@@ -45,10 +45,6 @@ public class Quiz extends AppCompatActivity {
             }
 
             private void unfocusTexts() {
-                answer1.setTextColor(getColor(R.color.text));
-                answer2.setTextColor(getColor(R.color.text));
-                answer3.setTextColor(getColor(R.color.text));
-                answer4.setTextColor(getColor(R.color.text));
                 answer1.setTextSize(15);
                 answer2.setTextSize(15);
                 answer3.setTextSize(15);
@@ -56,7 +52,6 @@ public class Quiz extends AppCompatActivity {
             }
 
             private void focusText(RadioButton radio) {
-                radio.setTextColor(getColor(R.color.textFocused));
                 radio.setTextSize((float) 20);
             }
         });

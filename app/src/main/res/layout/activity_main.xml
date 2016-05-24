@@ -11,7 +11,7 @@
     tools:context="com.khatthaphone.asean.MainActivity">
 
     <Button
-        android:id="@+id/play"
+        android:id="@+id/btnPlay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
@@ -21,10 +21,10 @@
         android:textColor="@android:color/white" />
 
     <Button
-        android:id="@+id/addQuestion"
+        android:id="@+id/btnAddQuestion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/play"
+        android:layout_below="@+id/btnPlay"
         android:layout_centerInParent="true"
         android:layout_marginTop="40dp"
         android:background="@color/colorPrimaryDark"
