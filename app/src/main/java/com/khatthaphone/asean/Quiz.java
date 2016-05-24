@@ -5,15 +5,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 public class Quiz extends AppCompatActivity {
 
     RadioGroup radioGroup;
-    RadioButton answer1;
-    RadioButton answer2;
-    RadioButton answer3;
-    RadioButton answer4;
+    TextView question;
+    RadioButton answer1, answer2, answer3, answer4;
     Button btnNext;
+    String rightAnswer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,11 +21,27 @@ public class Quiz extends AppCompatActivity {
         setContentView(R.layout.activity_quiz);
 
         radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
+        question = (TextView) findViewById(R.id.tvQeustion);
         answer1 = (RadioButton) findViewById(R.id.answer1);
         answer2 = (RadioButton) findViewById(R.id.answer2);
         answer3 = (RadioButton) findViewById(R.id.answer3);
         answer4 = (RadioButton) findViewById(R.id.answer4);
 
+        RadioButtonStyle();
+
+        final QuizProvider quiz = new QuizProvider(this);
+        quiz.open();
+        String data = quiz.getData();
+        quiz.open();
+
+        TextView tv = new TextView(this);
+        tv.setText(data);
+        setContentView(tv);
+
+        quiz.close();
+    }
+
+    private void RadioButtonStyle() {
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, int i) {
@@ -55,6 +71,5 @@ public class Quiz extends AppCompatActivity {
                 radio.setTextSize((float) 20);
             }
         });
-
     }
 }

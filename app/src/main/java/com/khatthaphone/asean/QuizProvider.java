@@ -36,7 +36,7 @@ public class QuizProvider {
     private final Context context;
     private SQLiteDatabase mDb;
     private DatabaseHelper dbHelper;
-    private String[] quiz;
+    private String quiz = "";
 
     public QuizProvider(Context context) {
         this.context = context;
@@ -52,18 +52,21 @@ public class QuizProvider {
         dbHelper.close();
     }
 
-    public String[] getData() {
-
+    public String getData() {
         String[] columns = new String[]{COLUMN_ROWID, COLUMN_QUESTION, COLUMN_ANSWER, COLUMN_CHOICE1, COLUMN_CHOICE2, COLUMN_CHOICE3, COLUMN_CHOICE4};
         Cursor c = mDb.query(DATABASE_TABLE, columns, null, null, null, null, null);
 
         int iRow = c.getColumnIndex(COLUMN_ROWID);
         int iQustion = c.getColumnIndex(COLUMN_QUESTION);
+        int iAnswer = c.getColumnIndex(COLUMN_ANSWER);
         int iChoice1 = c.getColumnIndex(COLUMN_CHOICE1);
         int iChoice2 = c.getColumnIndex(COLUMN_CHOICE2);
         int iChoice3 = c.getColumnIndex(COLUMN_CHOICE3);
         int iChoice4 = c.getColumnIndex(COLUMN_CHOICE4);
 
+        for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
+            quiz = quiz + c.getString(iRow) + ". " + c.getString(iQustion) + "\n" + " - " + c.getString(iChoice1) + "\n" + " - " + c.getString(iChoice2) + "\n" + " - " + c.getString(iChoice3) + "\n" + " - " + c.getString(iChoice4) + "\n" + " (" + c.getString(iAnswer) + ")" + "\n";
+        }
 
         return quiz;
     }
