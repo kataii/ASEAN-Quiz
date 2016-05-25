@@ -7,7 +7,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait">
@@ -17,9 +17,13 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Quiz" />
-        <activity android:name=".QuizAdder" />
-        <activity android:name=".ViewData"></activity>
+        <activity
+            android:name=".Quiz"
+            android:parentActivityName=".MainActivity" />
+        <activity
+            android:name=".QuizAdder"
+            android:parentActivityName=".MainActivity" />
+        <activity android:name=".ViewSQLite"></activity>
     </application>
 
 </manifest>

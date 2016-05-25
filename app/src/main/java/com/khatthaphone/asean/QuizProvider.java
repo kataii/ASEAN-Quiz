@@ -54,19 +54,33 @@ public class QuizProvider {
 
     public String getData() {
         String[] columns = new String[]{COLUMN_ROWID, COLUMN_QUESTION, COLUMN_ANSWER, COLUMN_CHOICE1, COLUMN_CHOICE2, COLUMN_CHOICE3, COLUMN_CHOICE4};
+        String[] currentQuiz = {};
+
         Cursor c = mDb.query(DATABASE_TABLE, columns, null, null, null, null, null);
 
         int iRow = c.getColumnIndex(COLUMN_ROWID);
-        int iQustion = c.getColumnIndex(COLUMN_QUESTION);
+        int iQuestion = c.getColumnIndex(COLUMN_QUESTION);
         int iAnswer = c.getColumnIndex(COLUMN_ANSWER);
         int iChoice1 = c.getColumnIndex(COLUMN_CHOICE1);
         int iChoice2 = c.getColumnIndex(COLUMN_CHOICE2);
         int iChoice3 = c.getColumnIndex(COLUMN_CHOICE3);
         int iChoice4 = c.getColumnIndex(COLUMN_CHOICE4);
+//
+//        c.moveToFirst();
+//        currentQuiz[0] = c.getString(iRow);
+//        currentQuiz[1] = c.getString(iQuestion);
+//        currentQuiz[2] = c.getString(iAnswer);
+//        currentQuiz[3] = c.getString(iChoice1);
+//        currentQuiz[4] = c.getString(iChoice2);
+//        currentQuiz[5] = c.getString(iChoice3);
+//        currentQuiz[6] = c.getString(iChoice4);
+//
+//        c.close();
 
         for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-            quiz = quiz + c.getString(iRow) + ". " + c.getString(iQustion) + "\n" + " - " + c.getString(iChoice1) + "\n" + " - " + c.getString(iChoice2) + "\n" + " - " + c.getString(iChoice3) + "\n" + " - " + c.getString(iChoice4) + "\n" + " (" + c.getString(iAnswer) + ")" + "\n";
+            quiz = quiz + c.getString(iRow) + ". " + c.getString(iQuestion) + "\n" + " - " + c.getString(iChoice1) + "\n" + " - " + c.getString(iChoice2) + "\n" + " - " + c.getString(iChoice3) + "\n" + " - " + c.getString(iChoice4) + "\n" + " (" + c.getString(iAnswer) + ")" + "\n";
         }
+
 
         return quiz;
     }
@@ -75,11 +89,11 @@ public class QuizProvider {
 
         ContentValues values = new ContentValues();
         values.put(QuizProvider.COLUMN_QUESTION, question);
-        values.put(QuizProvider.COLUMN_CHOICE1, answer);
-        values.put(QuizProvider.COLUMN_CHOICE2, choice1);
-        values.put(QuizProvider.COLUMN_CHOICE3, choice2);
-        values.put(QuizProvider.COLUMN_CHOICE4, choice3);
-        values.put(QuizProvider.COLUMN_ANSWER, choice4);
+        values.put(QuizProvider.COLUMN_ANSWER, answer);
+        values.put(QuizProvider.COLUMN_CHOICE1, choice1);
+        values.put(QuizProvider.COLUMN_CHOICE2, choice2);
+        values.put(QuizProvider.COLUMN_CHOICE3, choice3);
+        values.put(QuizProvider.COLUMN_CHOICE4, choice4);
 
         return mDb.insert(DATABASE_TABLE, null, values);
     }

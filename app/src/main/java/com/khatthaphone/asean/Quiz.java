@@ -1,13 +1,12 @@
 package com.khatthaphone.asean;
 
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 
-public class Quiz extends AppCompatActivity {
+public class Quiz extends ViewSQLite {
 
     RadioGroup radioGroup;
     TextView question;
@@ -22,10 +21,10 @@ public class Quiz extends AppCompatActivity {
 
         radioGroup = (RadioGroup) findViewById(R.id.radioGroup);
         question = (TextView) findViewById(R.id.tvQeustion);
-        answer1 = (RadioButton) findViewById(R.id.answer1);
-        answer2 = (RadioButton) findViewById(R.id.answer2);
-        answer3 = (RadioButton) findViewById(R.id.answer3);
-        answer4 = (RadioButton) findViewById(R.id.answer4);
+        answer1 = (RadioButton) findViewById(R.id.choice1);
+        answer2 = (RadioButton) findViewById(R.id.choice2);
+        answer3 = (RadioButton) findViewById(R.id.choice3);
+        answer4 = (RadioButton) findViewById(R.id.choice4);
 
         RadioButtonStyle();
 
@@ -35,6 +34,7 @@ public class Quiz extends AppCompatActivity {
         quiz.open();
 
         TextView tv = new TextView(this);
+//        tv.setText(data[1]+data[2]+data[3]+data[4]+data[5]+data[6]);
         tv.setText(data);
         setContentView(tv);
 
