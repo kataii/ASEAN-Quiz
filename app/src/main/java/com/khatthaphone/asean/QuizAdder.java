@@ -1,7 +1,6 @@
 package com.khatthaphone.asean;
 
 import android.app.Dialog;
-import android.content.ContentValues;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +11,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -61,33 +61,34 @@ public class QuizAdder extends AppCompatActivity implements View.OnClickListener
         switch (view.getId()) {
             case R.id.btnAdd2:
 
-                boolean worked = true;
+                saveToSQLiteDatabase();
 
-                saveToSQLiteDatabase(worked);
+                boolean works = true;
 
-                ContentValues values = new ContentValues();
-                values.put("question", eQuestion.getText().toString());
-                values.put("answer", sAnswer.getSelectedItem().toString());
-                values.put("choice1", eChoice1.getText().toString());
-                values.put("choice2", eChoice2.getText().toString());
-                values.put("choice3", eChoice3.getText().toString());
-                values.put("choice4", eChoice4.getText().toString());
+                try {
+                    Map<String, String> newQuiz = new HashMap<String, String>();
+                    newQuiz.put("question", eQuestion.getText().toString());
+                    newQuiz.put("answer", sAnswer.getSelectedItem().toString());
+                    newQuiz.put("choice1", eChoice1.getText().toString());
+                    newQuiz.put("choice2", eChoice2.getText().toString());
+                    newQuiz.put("choice3", eChoice3.getText().toString());
+                    newQuiz.put("choice4", eChoice4.getText().toString());
 
-                Map<String, String> newQuiz = new HashMap<String, String>();
-                newQuiz.put("question", eQuestion.getText().toString());
-                newQuiz.put("answer", sAnswer.getSelectedItem().toString());
-                newQuiz.put("choice1", eChoice1.getText().toString());
-                newQuiz.put("choice2", eChoice2.getText().toString());
-                newQuiz.put("choice3", eChoice3.getText().toString());
-                newQuiz.put("choice4", eChoice4.getText().toString());
-
-                mQuiz.push().setValue(newQuiz);
+                    mQuiz.push().setValue(newQuiz);
+                } catch (Exception e) {
+                    works = false;
+                } finally {
+                    if (works) {
+                        Toast toast = Toast.makeText(this, "Pushed to Firebase", Toast.LENGTH_LONG);
+                    }
+                }
 
                 break;
         }
     }
 
-    private void saveToSQLiteDatabase(boolean worked) {
+    private void saveToSQLiteDatabase() {
+        boolean worked = true;
         try {
             String question = eQuestion.getText().toString();
             String answer = sAnswer.getSelectedItem().toString();

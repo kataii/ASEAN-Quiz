@@ -13,12 +13,16 @@ public class ViewSQLite extends AppCompatActivity {
 
 
         final QuizProvider quiz = new QuizProvider(this);
+//        QuizObject quizObject = new QuizObject();
         quiz.open();
         String data = quiz.getData();
-        quiz.open();
+//        quizObject = quiz.getData(quizObject);
 
         TextView tv = new TextView(this);
-//        tv.setText(data[1]+data[2]+data[3]+data[4]+data[5]+data[6]);
+/*        tv.setText(
+                quizObject.getQuestion() + "\n" + " - " + quizObject.getChoice1() + "\n"  + " - " + quizObject.getChoice2() + "\n" + " - " +  quizObject.getChoice3() + "\n" + " - " +  quizObject.getChoice4()
+                        + " - " +  quizObject.getAnswer() + "\n"
+        );*/
         tv.setText(data);
         setContentView(tv);
 

@@ -6,6 +6,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 /**
  * Created by ACER on 5/18/2016.
  */
@@ -19,12 +22,10 @@ public class QuizProvider {
     public static final String COLUMN_CHOICE3 = "choice3";
     public static final String COLUMN_CHOICE4 = "choice4";
     public static final String COLUMN_ANSWER = "answer";
-
     // Database's Constants
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME = "data";
     private static final String DATABASE_TABLE = "quiz_multi";
-
     private static final String DATABASE_CREATE = "create table "
             + DATABASE_TABLE + " (" + COLUMN_ROWID + " integer primary key autoincrement, "
             + COLUMN_QUESTION + " text not null, "
@@ -34,6 +35,10 @@ public class QuizProvider {
             + COLUMN_CHOICE3 + " text not null, "
             + COLUMN_CHOICE4 + " text not null);";
     private final Context context;
+    //Firebase Refs
+    FirebaseDatabase firebase = FirebaseDatabase.getInstance();
+    DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+    DatabaseReference mQuiz = rootRef.child("quiz");
     private SQLiteDatabase mDb;
     private DatabaseHelper dbHelper;
     private String quiz = "";
@@ -54,7 +59,6 @@ public class QuizProvider {
 
     public String getData() {
         String[] columns = new String[]{COLUMN_ROWID, COLUMN_QUESTION, COLUMN_ANSWER, COLUMN_CHOICE1, COLUMN_CHOICE2, COLUMN_CHOICE3, COLUMN_CHOICE4};
-        String[] currentQuiz = {};
 
         Cursor c = mDb.query(DATABASE_TABLE, columns, null, null, null, null, null);
 
@@ -65,22 +69,37 @@ public class QuizProvider {
         int iChoice2 = c.getColumnIndex(COLUMN_CHOICE2);
         int iChoice3 = c.getColumnIndex(COLUMN_CHOICE3);
         int iChoice4 = c.getColumnIndex(COLUMN_CHOICE4);
-//
-//        c.moveToFirst();
-//        currentQuiz[0] = c.getString(iRow);
-//        currentQuiz[1] = c.getString(iQuestion);
-//        currentQuiz[2] = c.getString(iAnswer);
-//        currentQuiz[3] = c.getString(iChoice1);
-//        currentQuiz[4] = c.getString(iChoice2);
-//        currentQuiz[5] = c.getString(iChoice3);
-//        currentQuiz[6] = c.getString(iChoice4);
-//
-//        c.close();
+
 
         for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-            quiz = quiz + c.getString(iRow) + ". " + c.getString(iQuestion) + "\n" + " - " + c.getString(iChoice1) + "\n" + " - " + c.getString(iChoice2) + "\n" + " - " + c.getString(iChoice3) + "\n" + " - " + c.getString(iChoice4) + "\n" + " (" + c.getString(iAnswer) + ")" + "\n";
+            quiz = quiz + "[" + iRow + "]  " + c.getString(0) + ". " +
+                    "[" + iQuestion + "]  " + c.getString(1) + "\n" + " - " +
+                    "[" + iChoice1 + "]  " + c.getString(2) + "\n" + " - " +
+                    "[" + iChoice2 + "]  " + c.getString(3) + "\n" + " - " +
+                    "[" + iChoice3 + "]  " + c.getString(4) + "\n" + " - " +
+                    "[" + iChoice4 + "]  " + c.getString(5) + "\n" + " (" +
+                    "[" + iAnswer + "]  " + c.getString(6) + ")" + "\n";
         }
 
+
+        return quiz;
+    }
+
+    public QuizObject getData(QuizObject quizObject) {
+
+        QuizObject quiz = new QuizObject();
+        String[] columns = new String[]{COLUMN_ROWID, COLUMN_QUESTION, COLUMN_ANSWER, COLUMN_CHOICE1, COLUMN_CHOICE2, COLUMN_CHOICE3, COLUMN_CHOICE4};
+        Cursor c = mDb.query(DATABASE_TABLE, columns, null, null, null, null, null);
+
+        c.moveToFirst();
+        c.moveToNext();
+
+        quiz.setQuestion(c.getString(1));
+        quiz.setAnswer(c.getString(2));
+        quiz.setChoice1(c.getString(3));
+        quiz.setChoice2(c.getString(4));
+        quiz.setChoice3(c.getString(5));
+        quiz.setChoice4(c.getString(6));
 
         return quiz;
     }
