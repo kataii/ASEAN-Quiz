@@ -9,6 +9,8 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.Random;
+
 /**
  * Created by ACER on 5/18/2016.
  */
@@ -62,6 +64,10 @@ public class QuizProvider {
 
         Cursor c = mDb.query(DATABASE_TABLE, columns, null, null, null, null, null);
 
+        Random random = new Random();
+        int value = random.nextInt();
+        System.out.println(value);
+
         int iRow = c.getColumnIndex(COLUMN_ROWID);
         int iQuestion = c.getColumnIndex(COLUMN_QUESTION);
         int iAnswer = c.getColumnIndex(COLUMN_ANSWER);
@@ -71,29 +77,28 @@ public class QuizProvider {
         int iChoice4 = c.getColumnIndex(COLUMN_CHOICE4);
 
 
+
         for (c.moveToFirst(); !c.isAfterLast(); c.moveToNext()) {
-            quiz = quiz + "[" + iRow + "]  " + c.getString(0) + ". " +
-                    "[" + iQuestion + "]  " + c.getString(1) + "\n" + " - " +
-                    "[" + iChoice1 + "]  " + c.getString(2) + "\n" + " - " +
-                    "[" + iChoice2 + "]  " + c.getString(3) + "\n" + " - " +
-                    "[" + iChoice3 + "]  " + c.getString(4) + "\n" + " - " +
-                    "[" + iChoice4 + "]  " + c.getString(5) + "\n" + " (" +
-                    "[" + iAnswer + "]  " + c.getString(6) + ")" + "\n";
+            quiz = quiz + c.getString(iRow) + ". " +
+                    c.getString(iQuestion) + "\n" + " - " +
+                    c.getString(iChoice1) + "\n" + " - " +
+                    c.getString(iChoice2) + "\n" + " - " +
+                    c.getString(iChoice3) + "\n" + " - " +
+                    c.getString(iChoice4) + "\n" + " (" +
+                    c.getString(iAnswer) + ")" + "\n";
         }
 
 
         return quiz;
     }
 
-    public QuizObject getData(QuizObject quizObject) {
+    public QuizObject getData(QuizObject quizObject, int step) {
 
         QuizObject quiz = new QuizObject();
         String[] columns = new String[]{COLUMN_ROWID, COLUMN_QUESTION, COLUMN_ANSWER, COLUMN_CHOICE1, COLUMN_CHOICE2, COLUMN_CHOICE3, COLUMN_CHOICE4};
         Cursor c = mDb.query(DATABASE_TABLE, columns, null, null, null, null, null);
 
-        c.moveToFirst();
-        c.moveToNext();
-
+        c.moveToPosition(step);
         quiz.setQuestion(c.getString(1));
         quiz.setAnswer(c.getString(2));
         quiz.setChoice1(c.getString(3));

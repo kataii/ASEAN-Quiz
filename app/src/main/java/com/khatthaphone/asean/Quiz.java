@@ -2,6 +2,7 @@ package com.khatthaphone.asean;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -18,6 +19,7 @@ public class Quiz extends ViewSQLite implements View.OnClickListener {
     String rightAnswer;
     int selectedRadioId;
     Context context;
+    int step;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,25 +35,31 @@ public class Quiz extends ViewSQLite implements View.OnClickListener {
         choice2 = (RadioButton) findViewById(R.id.choice2);
         choice3 = (RadioButton) findViewById(R.id.choice3);
         choice4 = (RadioButton) findViewById(R.id.choice4);
+        step = 1;
 
         RadioButtonStyle();
 
+        getQuiz(step);
+
+        btnNext.setOnClickListener(this);
+
+    }
+
+    private void getQuiz(int step) {
         final QuizProvider quizProvider = new QuizProvider(this);
         QuizObject quizObject = new QuizObject();
         quizProvider.open();
-        quizObject = quizProvider.getData(quizObject);
+
+        quizObject = quizProvider.getData(quizObject, step);
 
         question.setText(quizObject.getQuestion());
         choice1.setText(quizObject.getChoice1());
         choice2.setText(quizObject.getChoice2());
         choice3.setText(quizObject.getChoice3());
-        choice4.setText(quizObject.getChoice3());
+        choice4.setText(quizObject.getChoice4());
 
         rightAnswer = quizObject.getAnswer();
         selectedRadioId = radioGroup.getCheckedRadioButtonId();
-
-        btnNext.setOnClickListener(this);
-
     }
 
     private void RadioButtonStyle() {
@@ -72,17 +80,6 @@ public class Quiz extends ViewSQLite implements View.OnClickListener {
                     focusText(choice4);
                 }
             }
-
-            private void unfocusTexts() {
-                choice1.setTextSize(15);
-                choice2.setTextSize(15);
-                choice3.setTextSize(15);
-                choice4.setTextSize(15);
-            }
-
-            private void focusText(RadioButton radio) {
-                radio.setTextSize((float) 20);
-            }
         });
     }
 
@@ -94,9 +91,19 @@ public class Quiz extends ViewSQLite implements View.OnClickListener {
                 Dialog d = new Dialog(this);
                 TextView tv = new TextView(this);
                 d.setTitle("Great!");
-                tv.setText("Right answer is " + rightAnswer + "\n" + "You selected " + selectedRadioId);
+                tv.setText("Right answer is " + rightAnswer + "\n" + "You selected " + selectedRadioId + "\n" + "Right radio Id: " + choice4.getId());
+                tv.setPadding(20, 20, 20, 20);
                 d.setContentView(tv);
                 d.show();
+                d.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        step++;
+                        unfocusTexts();
+                        unCheck();
+                        getQuiz(step);
+                    }
+                });
 
                 break;
             default:
@@ -107,5 +114,24 @@ public class Quiz extends ViewSQLite implements View.OnClickListener {
                 D.setContentView(TV);
                 D.show();
         }
+    }
+
+
+    public void unfocusTexts() {
+        choice1.setTextSize(15);
+        choice2.setTextSize(15);
+        choice3.setTextSize(15);
+        choice4.setTextSize(15);
+    }
+
+    public void unCheck() {
+        choice1.setChecked(false);
+        choice2.setChecked(false);
+        choice3.setChecked(false);
+        choice4.setChecked(false);
+    }
+
+    public void focusText(RadioButton radio) {
+        radio.setTextSize((float) 20);
     }
 }
