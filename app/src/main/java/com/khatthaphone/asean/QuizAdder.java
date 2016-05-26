@@ -39,6 +39,11 @@ public class QuizAdder extends AppCompatActivity implements View.OnClickListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz_adder);
 
+/*        Toolbar myToolbar = (Toolbar) findViewById(R.id.NoMenuToolbar);
+        setSupportActionBar(myToolbar);
+        ActionBar ab = getSupportActionBar();
+        ab.setDisplayHomeAsUpEnabled(true);*/
+
         btnAdd = (Button) findViewById(R.id.btnAdd2);
         eQuestion = (EditText) findViewById(R.id.eQuestion);
         eChoice1 = (EditText) findViewById(R.id.eAnswer1);
@@ -47,7 +52,7 @@ public class QuizAdder extends AppCompatActivity implements View.OnClickListener
         eChoice4 = (EditText) findViewById(R.id.eAnswer4);
         sAnswer = (Spinner) findViewById(R.id.spinner);
 
-        ArrayAdapter<CharSequence> rightAnswers = ArrayAdapter.createFromResource(this, R.array.rightAnswer, android.R.layout.simple_spinner_dropdown_item);
+        ArrayAdapter<CharSequence> rightAnswers = ArrayAdapter.createFromResource(this, R.array.choices, android.R.layout.simple_spinner_dropdown_item);
         rightAnswers.setDropDownViewResource(android.R.layout.simple_list_item_1);
         sAnswer.setAdapter(rightAnswers);
 

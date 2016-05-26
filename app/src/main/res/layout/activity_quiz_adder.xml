@@ -165,7 +165,6 @@
                 android:text="@string/add" />
 
         </RelativeLayout>
+
     </LinearLayout>
-
-
 </LinearLayout>

@@ -23,7 +23,13 @@
         <activity
             android:name=".QuizAdder"
             android:parentActivityName=".MainActivity" />
-        <activity android:name=".ViewSQLite"></activity>
+        <activity
+            android:name=".ViewSQLite"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.khatthaphone.asean.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

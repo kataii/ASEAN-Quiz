@@ -26,6 +26,12 @@ public class Quiz extends ViewSQLite implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_quiz);
 
+//        setContentView(R.layout.activity_view_sqlite);
+//        Toolbar myToolbar = (Toolbar) findViewById(R.id.NoMenuToolbar);
+//        setSupportActionBar(myToolbar);
+//        ActionBar ab = getSupportActionBar();
+//        ab.setDisplayHomeAsUpEnabled(true);
+
         context = this.getApplicationContext();
 
         btnNext = (Button) findViewById(R.id.btnNext);
@@ -125,6 +131,10 @@ public class Quiz extends ViewSQLite implements View.OnClickListener {
     }
 
     public void unCheck() {
+        choice1.setChecked(true);
+        choice2.setChecked(true);
+        choice3.setChecked(true);
+        choice4.setChecked(true);
         choice1.setChecked(false);
         choice2.setChecked(false);
         choice3.setChecked(false);
