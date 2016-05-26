@@ -43,8 +43,6 @@ public class Quiz extends ViewSQLite implements View.OnClickListener {
         choice4 = (RadioButton) findViewById(R.id.choice4);
         step = 1;
 
-        RadioButtonStyle();
-
         getQuiz(step);
 
         btnNext.setOnClickListener(this);
@@ -97,7 +95,7 @@ public class Quiz extends ViewSQLite implements View.OnClickListener {
                 Dialog d = new Dialog(this);
                 TextView tv = new TextView(this);
                 d.setTitle("Great!");
-                tv.setText("Right answer is " + rightAnswer + "\n" + "You selected " + selectedRadioId + "\n" + "Right radio Id: " + choice4.getId());
+                tv.setText("Right answer is " + rightAnswer);
                 tv.setPadding(20, 20, 20, 20);
                 d.setContentView(tv);
                 d.show();
